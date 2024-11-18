@@ -1,60 +1,95 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ConsoleApp2
+namespace Verem
 {
     public class LIFO
     {
-        private double[] array;
-        private int stackPointer;
+        private double[] stack;
+        private int top;
+        private int capacity;
+
 
         public LIFO()
         {
-            stackPointer = 0;
-            array = new double[50];
+            this.capacity = 50;
+            this.stack = new double[capacity];
+            this.top = -1;
         }
+
 
         public LIFO(int size)
         {
-            stackPointer = 0;
-            array = new double[size];
+            this.capacity = size;
+            this.stack = new double[capacity];
+            this.top = -1;
         }
 
-        public void Push(double element)
+
+        public void Push(double elem)
         {
-            if (stackPointer < array.Length)
-            {
-                array[stackPointer] = element;
-                stackPointer++;
-            }
-            else
-            {
-                throw new StackOverflowException("SAJÁT : Stack overflow!");
-            }
+
+            stack[top++] = elem;
         }
+
 
         public double Pop()
         {
-            if (stackPointer == 0)
-            {
-                throw new Exception("Empty exception!");
-            }
 
-                return array[stackPointer--];
-         }
+            return stack[top--];
+        }
+
 
         public void Clear()
         {
-            stackPointer = 0;
+            top = 0;
         }
+
 
         public int Length()
         {
-            return stackPointer;
+            return top + 1;
         }
+
 
         public int GetSize()
         {
-            return array.Length;
+            return capacity;
+        }
+
+
+        public void Reverse()
+        {
+            double[] reversedStack = new double[capacity];
+            for (int i = 0; i <= top; i++)
+            {
+                reversedStack[i] = stack[top - i];
+            }
+            stack = reversedStack;
+        }
+
+
+        public void Sort()
+        {
+            for (int i = 0; i <= top; i++)
+            {
+                for (int j = 0; j < top - i; j++)
+                {
+                    if (stack[j] > stack[j + 1])
+                    {
+
+                        double temp = stack[j];
+                        stack[j] = stack[j + 1];
+                        stack[j + 1] = temp;
+                    }
+                }
+            }
         }
     }
+
+
 }
